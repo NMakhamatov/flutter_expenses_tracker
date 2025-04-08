@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:expenses_tracker/widgets/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -46,6 +48,10 @@ class _NewExpenseState extends State<NewExpense> {
 
       return;
     }
+
+    Expense expense = Expense(title: _titleController.text, amount: enteredAmount, date: _selectedDate!, category: _selectedCategory);
+    widget.onAddExpense(expense);
+    Navigator.pop(context);
 }
 
 void _presentDatePicker() async {
@@ -66,7 +72,7 @@ void _presentDatePicker() async {
 @override
 Widget build(BuildContext context) {
   return Padding(
-    padding: EdgeInsets.all(16),
+    padding: EdgeInsets.fromLTRB(16,48,16,16),
     child: Column(
       children: [
         TextField(
